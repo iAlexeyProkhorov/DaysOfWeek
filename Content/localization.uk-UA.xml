@@ -1,0 +1,31 @@
+﻿<Language Name="Русский">
+  <!--Configuration-->
+  <LocaleResource Name="Plugins.DiscountRules.DaysOfWeek.Fields.SelectedDaysOfWeekId">
+    <Value>Дні знижки</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.DiscountRules.DaysOfWeek.Fields.SelectedDaysOfWeekId.Hint">
+    <Value>Дні в які знижка буде активною.</Value>
+  </LocaleResource>
+  <!--Days of week-->
+  <LocaleResource Name="enums.System.DayOfWeek.Sunday">
+    <Value>Неділя</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Monday">
+    <Value>Понеділок</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Tuesday">
+    <Value>Вівторок</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Wednesday">
+    <Value>Середа</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Thursday">
+    <Value>Четвер</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Friday">
+    <Value>П'ятниця</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Saturday">
+    <Value>Субота</Value>
+  </LocaleResource>
+</Language>

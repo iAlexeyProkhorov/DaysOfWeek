@@ -1,0 +1,31 @@
+﻿<Language Name="Turkish">
+  <!--Configuration-->
+  <LocaleResource Name="Plugins.DiscountRules.DaysOfWeek.Fields.SelectedDaysOfWeekId">
+    <Value>Hafta içi</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.DiscountRules.DaysOfWeek.Fields.SelectedDaysOfWeekId.Hint">
+    <Value>İndirimin aktif olacağı haftanın günleri.</Value>
+  </LocaleResource>
+  <!--Days of week-->
+  <LocaleResource Name="enums.System.DayOfWeek.Sunday">
+    <Value>Pazar</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Monday">
+    <Value>Pazartesi</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Tuesday">
+    <Value>Salı</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Wednesday">
+    <Value>Çarşamba</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Thursday">
+    <Value>Perşembe</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Friday">
+    <Value>Cuma</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Saturday">
+    <Value>Cumartesi</Value>
+  </LocaleResource>
+</Language>

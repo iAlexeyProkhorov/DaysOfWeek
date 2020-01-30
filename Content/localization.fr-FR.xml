@@ -1,0 +1,31 @@
+﻿<Language Name="French">
+  <!--Configuration-->
+  <LocaleResource Name="Plugins.DiscountRules.DaysOfWeek.Fields.SelectedDaysOfWeekId">
+    <Value>Jours de la semaine</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.DiscountRules.DaysOfWeek.Fields.SelectedDaysOfWeekId.Hint">
+    <Value>Jours de la semaine où la réduction sera active.</Value>
+  </LocaleResource>
+  <!--Days of week-->
+  <LocaleResource Name="enums.System.DayOfWeek.Sunday">
+    <Value>Dimanche</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Monday">
+    <Value>Lundi</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Tuesday">
+    <Value>Mardi</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Wednesday">
+    <Value>Mercredi</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Thursday">
+    <Value>Jeudi</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Friday">
+    <Value>Vendredi</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.System.DayOfWeek.Saturday">
+    <Value>Samedi</Value>
+  </LocaleResource>
+</Language>

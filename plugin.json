@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Discount rules",
+  "FriendlyName": "Days of week",
+  "SystemName": "DiscountRules.DaysOfWeek",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.20" ],
+  "Author": "Alvaar",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.DiscountRules.DaysOfWeek.dll",
+  "Description": "This plugin allows you to configure discounts by week days."
+}

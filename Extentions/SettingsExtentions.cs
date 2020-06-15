@@ -18,8 +18,7 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek.Extentions
 
             return separated.Split(separator).Select(x =>
             {
-                int result = 0;
-                int.TryParse(x, out result);
+                int.TryParse(x, out int result);
                 return result;
             }).ToList();
         }

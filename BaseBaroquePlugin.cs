@@ -1,12 +1,23 @@
-﻿using Newtonsoft.Json;
-using Nop.Core;
+﻿//Copyright 2020 Alexey Prokhorov
+
+//Licensed under the Apache License, Version 2.0 (the "License");
+//you may not use this file except in compliance with the License.
+//You may obtain a copy of the License at
+
+//       http://www.apache.org/licenses/LICENSE-2.0
+
+//Unless required by applicable law or agreed to in writing, software
+//distributed under the License is distributed on an "AS IS" BASIS,
+//WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//See the License for the specific language governing permissions and
+//limitations under the License.
+
 using Nop.Core.Infrastructure;
 using Nop.Services.Localization;
 using Nop.Services.Plugins;
 using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -21,11 +32,9 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
 
         #endregion
 
-        #region Additional fields
+        #region Properties
 
-        public static FileInfo _originalAssemblyFile { get; private set; }
-
-        public static PluginDescriptor BaroquePluginDescriptor { get; private set; }
+        public FileInfo _originalAssemblyFile { get; private set; }
 
         #endregion
 
@@ -33,61 +42,13 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
 
         public BaseBaroquePlugin()
         {
+            //get plugin descriptor
+            var pluginsInfo = Singleton<IPluginsInfo>.Instance;
+            var descriptor = pluginsInfo.PluginDescriptors.FirstOrDefault(x => x.PluginType == this.GetType());
+            //intialize varialbes
             this._localizationService = EngineContext.Current.Resolve<ILocalizationService>();
             this._languageService = EngineContext.Current.Resolve<ILanguageService>();
-
-            //get current plugin location in file system
-            string pluginLibraryLocationPath = Assembly.GetExecutingAssembly().Location;
-
-            //get plugin library name
-            string pluginLibraryName = Path.GetFileName(pluginLibraryLocationPath);
-        }
-
-        static BaseBaroquePlugin()
-        {
-            //get current plugin location in file system
-            string pluginLibraryLocationPath = Assembly.GetExecutingAssembly().Location;
-
-            //get plugin library name
-            string pluginLibraryName = Path.GetFileName(pluginLibraryLocationPath);
-
-            //get plugin library folder
-            string pluginLibraryFolder = Path.GetDirectoryName(pluginLibraryLocationPath);
-            var parentFolder = Directory.GetParent(pluginLibraryFolder);
-
-            //search for this file in nop plugins folder
-            var foundedFiles = Directory.GetFiles(parentFolder.FullName, pluginLibraryName, SearchOption.AllDirectories);
-
-            //create default plugin descriptor
-            BaroquePluginDescriptor = new PluginDescriptor(Assembly.GetExecutingAssembly());
-
-            //get plugin descriptor from plugin description file
-            if (foundedFiles.Any())
-            {
-                string nopPluginLibraryPath = string.Empty;
-                foreach (var file in foundedFiles)
-                    if (!file.Contains("\\Plugins\\bin\\"))
-                    {
-                        nopPluginLibraryPath = file;
-                        break;
-                    }
-
-                if (!string.IsNullOrEmpty(nopPluginLibraryPath))
-                {
-                    _originalAssemblyFile = new FileInfo(nopPluginLibraryPath);
-
-                    var pluginDescriptorFile = $"{_originalAssemblyFile.DirectoryName}\\{ NopPluginDefaults.DescriptionFileName }";
-
-                    if (!File.Exists(pluginDescriptorFile))
-                        throw new Exception($"Plugin descriptor for {pluginLibraryName} aren't found");
-
-                    var descriptorText = File.ReadAllText(pluginDescriptorFile);
-
-                    BaroquePluginDescriptor = PluginDescriptor.GetPluginDescriptorFromText(descriptorText);
-
-                    BaroquePluginDescriptor.Installed = IsPluginInstalled();
-                }
-            }
+            this._originalAssemblyFile = new FileInfo(descriptor.OriginalAssemblyFile);
         }
 
         #endregion
@@ -172,16 +133,6 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
             }
         }
 
-        /// <summary>
-        /// Check current plugin installation status in 'InstalledPlugins.txt' document
-        /// </summary>
-        /// <param name="systemName">Plugin system name</param>
-        /// <returns>True - when plugin marked like installed</returns>
-        protected static bool IsPluginInstalled()
-        {
-            return IsPluginInstalled(BaroquePluginDescriptor.SystemName);
-        }
-
         #endregion
 
         #region Methods
@@ -196,26 +147,6 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
         {
             this.UninstallLocalization();
             base.Uninstall();
-        }
-
-        /// <summary>
-        /// Check InstalledPlugins.txt file list on plugin system name
-        /// </summary>
-        /// <param name="systemName">Plugin system name</param>
-        /// <returns>True when plugin added to list</returns>
-        public static bool IsPluginInstalled(string systemName)
-        {
-            string installedPluginsFile = CommonHelper.DefaultFileProvider.MapPath(NopPluginDefaults.PluginsInfoFilePath);
-
-            if (File.Exists(installedPluginsFile))
-            {
-                var redisPluginsInfo = JsonConvert.DeserializeObject<PluginsInfo>(File.ReadAllText(installedPluginsFile));
-
-
-                return redisPluginsInfo.InstalledPluginNames.Contains(systemName);
-            }
-
-            return false;
         }
 
         #endregion

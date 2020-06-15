@@ -8,14 +8,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Copyright>Copyright © Baroque Team</Copyright> 
     <Company></Company> 
     <Authors>Baroque Team</Authors>
     <PackageLicenseUrl></PackageLicenseUrl> 
     <PackageProjectUrl></PackageProjectUrl> 
-    <RepositoryUrl></RepositoryUrl> 
-    <RepositoryType></RepositoryType>
+    <RepositoryUrl>https://github.com/iAlexeyProkhorov/DaysOfWeek</RepositoryUrl> 
+    <RepositoryType>Git</RepositoryType> 
+    <Version>1.0.1</Version>
   </PropertyGroup>
   
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -27,6 +28,10 @@
     <OutputPath>..\..\Presentation\Nop.Web\Plugins\DiscountRules.DaysOfWeek\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="RouteProvider.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Views\_ViewImports.cshtml" />

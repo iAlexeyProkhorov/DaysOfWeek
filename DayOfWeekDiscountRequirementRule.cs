@@ -20,9 +20,13 @@ using Nop.Plugin.DiscountRules.DaysOfWeek.Extentions;
 using Nop.Services.Configuration;
 using Nop.Services.Discounts;
 using System;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.DiscountRules.DaysOfWeek
 {
+    /// <summary>
+    /// Represents days of week discout requirement rule
+    /// </summary>
     public partial class DaysOfWeekDiscountRequirementRule : BaseBaroquePlugin, IDiscountRequirementRule
     {
         private readonly IActionContextAccessor _actionContextAccessor;
@@ -49,7 +53,7 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
         /// </summary>
         /// <param name="request">Object that contains all information required to check the requirement (Current customer, discount, etc)</param>
         /// <returns>Result</returns>
-        public DiscountRequirementValidationResult CheckRequirement(DiscountRequirementValidationRequest request)
+        public async Task<DiscountRequirementValidationResult> CheckRequirementAsync(DiscountRequirementValidationRequest request)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
@@ -60,8 +64,8 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
             if (request.Customer == null)
                 return result;
 
-            var selectedDayIds = _settingService.GetSettingByKey<string>(string.Format(DaysOfWeekSystemNames.PluginSettingName, request.DiscountRequirementId)).ParseSeparatedNumbers();
-
+            var setting = await _settingService.GetSettingByKeyAsync<string>(string.Format(DaysOfWeekSystemNames.PluginSettingName, request.DiscountRequirementId));
+            var selectedDayIds = setting.ParseSeparatedNumbers();
             if (selectedDayIds.Contains((int)DateTime.UtcNow.DayOfWeek))
                 result.IsValid = true;
 
@@ -80,17 +84,25 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
             return urlHelper.Action("Configure", "DiscountRulesDaysOfWeek",
-                new { discountId = discountId, discountRequirementId = discountRequirementId }, _webHelper.CurrentRequestProtocol);
+                new { discountId = discountId, discountRequirementId = discountRequirementId }, _webHelper.GetCurrentRequestProtocol());
         }
 
-        public override void Install()
+        /// <summary>
+        /// Install plugin
+        /// </summary>
+        /// <returns></returns>
+        public override async Task InstallAsync()
         {
-            base.Install();
+            await base.InstallAsync();
         }
 
-        public override void Uninstall()
+        /// <summary>
+        /// Uninstall plugin
+        /// </summary>
+        /// <returns></returns>
+        public override async Task UninstallAsync()
         {
-            base.Uninstall();
+            await base.UninstallAsync();
         }
     }
 }

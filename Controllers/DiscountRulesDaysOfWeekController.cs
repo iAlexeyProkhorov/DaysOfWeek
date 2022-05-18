@@ -25,6 +25,7 @@ using System;
 using System.Linq;
 using Nop.Web.Framework;
 using Nop.Web.Framework.Mvc.Filters;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
 {
@@ -55,20 +56,20 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
 
         #region Methods
 
-        public ActionResult Configure(int discountId, int? discountRequirementId)
+        public async Task<IActionResult> Configure(int discountId, int? discountRequirementId)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageDiscounts))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageDiscounts))
                 return Content("Access denied");
 
-            var discount = _discountService.GetDiscountById(discountId);
+            var discount = _discountService.GetDiscountByIdAsync(discountId);
             if (discount == null)
                 throw new ArgumentException("Discount could not be loaded");
 
-            var discountRequirement = _discountService.GetDiscountRequirementById(discountRequirementId.GetValueOrDefault(0));
+            var discountRequirement = await _discountService.GetDiscountRequirementByIdAsync(discountRequirementId.GetValueOrDefault(0));
             if (discountRequirementId.HasValue && discountRequirement == null)
                 return Content("Failed to load rule.");
 
-            var selectedDaysOfWeek = _settingService.GetSettingByKey<string>(string.Format(DaysOfWeekSystemNames.PluginSettingName, discountRequirementId.GetValueOrDefault(0)));
+            var selectedDaysOfWeek = await _settingService.GetSettingByKeyAsync<string>(string.Format(DaysOfWeekSystemNames.PluginSettingName, discountRequirementId.GetValueOrDefault(0)));
 
             var model = new RequirementModel();
 
@@ -76,7 +77,7 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
             model.DiscountId = discountId;
             model.SelectedDaysOfWeekId = selectedDaysOfWeek.ParseSeparatedNumbers();
 
-            model.AvailableDaysOfWeek = DayOfWeek.Monday.ToSelectList(useLocalization: true).ToList();
+            model.AvailableDaysOfWeek = (await DayOfWeek.Monday.ToSelectListAsync(useLocalization: true)).ToList();
             foreach (var day in model.AvailableDaysOfWeek)
             {
                 int dayIndex = 0;
@@ -90,21 +91,21 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
         }
 
         [HttpPost]
-        public ActionResult Configure(int discountId, int? discountRequirementId, int[] daysOfWeekIds)
+        public async Task<IActionResult> Configure(int discountId, int? discountRequirementId, int[] daysOfWeekIds)
         {
-            if (!_permissionService.Authorize(StandardPermissionProvider.ManageDiscounts))
+            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageDiscounts))
                 return Content("Access denied");
 
-            var discount = _discountService.GetDiscountById(discountId);
+            var discount = await _discountService.GetDiscountByIdAsync(discountId);
             if (discount == null)
                 throw new ArgumentException("Discount could not be loaded");
 
-            var discountRequirement = _discountService.GetDiscountRequirementById(discountRequirementId.GetValueOrDefault(0));
+            var discountRequirement = await _discountService.GetDiscountRequirementByIdAsync(discountRequirementId.GetValueOrDefault(0));
             var daysOfWeek = string.Join(",", daysOfWeekIds);
 
             if (discountRequirement != null)
                 //update existing rule
-                _settingService.SetSetting(string.Format(DaysOfWeekSystemNames.PluginSettingName, discountRequirement.Id), daysOfWeek);
+                await _settingService.SetSettingAsync(string.Format(DaysOfWeekSystemNames.PluginSettingName, discountRequirement.Id), daysOfWeek);
             else
             {
                 //save new rule
@@ -113,9 +114,9 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
                     DiscountRequirementRuleSystemName = "DiscountRules.DaysOfWeek",
                     DiscountId = discountId
                 };
-                _discountService.InsertDiscountRequirement(discountRequirement);
+                await _discountService.InsertDiscountRequirementAsync(discountRequirement);
 
-                _settingService.SetSetting(string.Format(DaysOfWeekSystemNames.PluginSettingName, discountRequirement.Id), daysOfWeek);
+                await _settingService.SetSettingAsync(string.Format(DaysOfWeekSystemNames.PluginSettingName, discountRequirement.Id), daysOfWeek);
             }
             return Json(new { Result = true, NewRequirementId = discountRequirement.Id });
         }

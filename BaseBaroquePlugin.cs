@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace Nop.Plugin.DiscountRules.DaysOfWeek
@@ -73,7 +74,7 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
         /// </summary>
         protected virtual void InstallLocalization()
         {
-            var allLanguages = _languageService.GetAllLanguages();
+            var allLanguages = _languageService.GetAllLanguagesAsync().GetAwaiter().GetResult();
             var language = allLanguages.FirstOrDefault();
 
             //if shop have no available languages method generate exception
@@ -94,7 +95,7 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
                 {
                     using (var sr = new StreamReader(stream, Encoding.UTF8))
                     {
-                        _localizationService.ImportResourcesFromXml(l, sr);
+                        _localizationService.ImportResourcesFromXmlAsync(l, sr);
                     }
                 }
             }
@@ -117,17 +118,17 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
             {
                 using (var sr = new StreamReader(stream, Encoding.UTF8))
                 {
-                    string result = sr.ReadToEnd();
-                    XmlDocument xLang = new XmlDocument();
+                    var result = sr.ReadToEnd();
+                    var xLang = new XmlDocument();
                     xLang.LoadXml(result);
 
                     //get localization keys
-                    XmlNodeList xNodeList = xLang.SelectNodes("Language/LocaleResource");
+                    var xNodeList = xLang.SelectNodes("Language/LocaleResource");
                     foreach (XmlNode elem in xNodeList)
                         if (elem.Name == "LocaleResource")
                         {
                             var localResource = elem.Attributes["Name"].Value;
-                            _localizationService.DeletePluginLocaleResource(localResource);
+                            _localizationService.DeleteLocaleResourceAsync(localResource);
                         }
                 }
             }
@@ -137,16 +138,18 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek
 
         #region Methods
 
-        public override void Install()
+        public override async Task InstallAsync()
         {
-            this.InstallLocalization();
-            base.Install();
+
+            InstallLocalization();
+            await base.InstallAsync();
         }
 
-        public override void Uninstall()
+
+        public override async Task UninstallAsync()
         {
-            this.UninstallLocalization();
-            base.Uninstall();
+            UninstallLocalization();
+            await base.UninstallAsync();
         }
 
         #endregion

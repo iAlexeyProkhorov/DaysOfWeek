@@ -3,7 +3,7 @@
   "FriendlyName": "Days of week",
   "SystemName": "DiscountRules.DaysOfWeek",
   "Version": "1.0.1",
-  "SupportedVersions": [ "4.40" ],
+  "SupportedVersions": [ "4.50" ],
   "Author": "Alvaar",
   "DisplayOrder": 1,
   "FileName": "Nop.Plugin.DiscountRules.DaysOfWeek.dll",

@@ -8,15 +8,21 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Copyright>Copyright © Baroque Team</Copyright> 
-    <Company></Company> 
+    <Company>Baroque Team</Company> 
     <Authors>Baroque Team</Authors>
     <PackageLicenseUrl></PackageLicenseUrl> 
     <PackageProjectUrl></PackageProjectUrl> 
     <RepositoryUrl>https://github.com/iAlexeyProkhorov/DaysOfWeek</RepositoryUrl> 
     <RepositoryType>Git</RepositoryType> 
     <Version>1.0.1</Version>
+	<OutputPath>..\..\Presentation\Nop.Web\Plugins\DiscountRules.DaysOfWeek</OutputPath>
+	<OutDir>$(OutputPath)</OutDir>
+	  <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project.
+    You need to set this parameter to true if your plugin has a nuget package 
+    to ensure that the dlls copied from the NuGet cache to the output of your project-->
+	<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

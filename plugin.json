@@ -2,7 +2,7 @@
   "Group": "Discount rules",
   "FriendlyName": "Days of week",
   "SystemName": "DiscountRules.DaysOfWeek",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "SupportedVersions": [ "4.50" ],
   "Author": "Alvaar",
   "DisplayOrder": 1,

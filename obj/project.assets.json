@@ -13463,7 +13463,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.1",
+    "version": "1.0.2",
     "restore": {
       "projectUniqueName": "P:\\Baroque\\Git\\nopPlugins\\nopCommerce_4.50.2_Source\\Plugins\\Nop.Plugin.DiscountRules.DaysOfWeek\\Nop.Plugin.DiscountRules.DaysOfWeek.csproj",
       "projectName": "Nop.Plugin.DiscountRules.DaysOfWeek",

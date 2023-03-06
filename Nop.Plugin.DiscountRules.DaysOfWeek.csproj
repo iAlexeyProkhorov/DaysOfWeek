@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Copyright>Copyright © Baroque Team</Copyright> 
     <Company>Baroque Team</Company> 
     <Authors>Baroque Team</Authors>

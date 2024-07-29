@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
 {
     [AuthorizeAdmin]
-    [Area(AreaNames.Admin)]
+    [Area(AreaNames.ADMIN)]
     public class DiscountRulesDaysOfWeekController : BasePluginController
     {
         #region Fields

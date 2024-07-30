@@ -3,9 +3,9 @@
   "FriendlyName": "Days of week",
   "SystemName": "DiscountRules.DaysOfWeek",
   "Version": "1.0.2",
-  "SupportedVersions": [ "4.60" ],
+  "SupportedVersions": [ "4.70" ],
   "Author": "Alvaar",
   "DisplayOrder": 1,
-  "FileName": "Nop.Plugin.DiscountRules.DaysOfWeek.dll",
+  "FileName": "Baroque.Plugin.DiscountRules.DaysOfWeek.dll",
   "Description": "This plugin allows you to configure discounts by week days."
 }

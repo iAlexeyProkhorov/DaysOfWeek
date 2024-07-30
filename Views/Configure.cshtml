@@ -2,35 +2,35 @@
     Layout = "";
 }
 @model Nop.Plugin.DiscountRules.DaysOfWeek.Models.RequirementModel
-
+<link rel="stylesheet" href="~/lib_npm/jquery-tageditor/jquery.tag-editor.css">
 <script type="text/javascript">
     $(document).ready(function () {
         $('#savedaysofweekrequirement@(Model.RequirementId)').click(function () {
             var daysOfWeekIds = $("#@Html.IdFor(model => model.SelectedDaysOfWeekId)").val();
             var discountId = @Model.DiscountId;
-			var requirementId = @Model.RequirementId;
+            var requirementId = @Model.RequirementId;
 
             var postData = {
                 discountId: discountId,
                 discountRequirementId: requirementId,
                 daysOfWeekIds: daysOfWeekIds
             };
-			addAntiForgeryToken(postData);
+            addAntiForgeryToken(postData);
 
             $.ajax({
-                cache:false,
+                cache: false,
                 type: "POST",
                 url: "@(Url.Action("Configure", "DiscountRulesDaysOfWeek"))",
-				data: postData,
+                data: postData,
                 success: function (data) {
                     $('#pnl-save-requirement-result@(Model.RequirementId)').fadeIn("slow").delay(1000).fadeOut("slow");
                     //notify parent if it's a new requirement
-                    @if (Model.RequirementId == 0)
-                    {
-                        <text>$("#discountRequirementContainer").trigger('nopnewdiscountruleadded', [data.NewRequirementId]);</text>
-                    }
-                },
-                error:function (xhr, ajaxOptions, thrownError){
+    @if (Model.RequirementId == 0)
+    {
+        <text>$("#discountRequirementContainer").trigger('nopnewdiscountruleadded', [data.NewRequirementId]); </text>
+    }
+                                },
+                error: function (xhr, ajaxOptions, thrownError) {
                     alert('@Html.Raw(JavaScriptEncoder.Default.Encode(T("Admin.Promotions.Discounts.Requirements.FailedToSave").Text))');
                 }
             });
@@ -42,19 +42,38 @@
     <div class="col-md-3 requirement-label-col">
         <nop-label asp-for="SelectedDaysOfWeekId" />
     </div>
-    <div class="col-md-9 requirement-data-col">
-        <div class="requirement-data-input">
-            <select asp-for="SelectedDaysOfWeekId" asp-items="Model.AvailableDaysOfWeek"></select>
+    <div class="col-md-9">
+        <div class="input-group-append">
+            <div class="input-group">
+                <div class="select2-blue">
+                    <select asp-for="SelectedDaysOfWeekId" asp-items="Model.AvailableDaysOfWeek" multiple="multiple" class="form-control select2" data-dropdown-css-class="select2-blue"></select>
+                </div>
+            </div>
             <script>
-			    $(document).ready(function () {
-				    $('#@Html.IdFor(model => model.SelectedDaysOfWeekId)').kendoMultiSelect().data("kendoMultiSelect");
-			    })
+                $(document).ready(function () {
+                    $('#@Html.IdFor(model => model.SelectedDaysOfWeekId)').select2();
+                })
             </script>
         </div>
-        <div class="requirement-data-buttons">
-            <input type="button" id="savedaysofweekrequirement@(Model.RequirementId)" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+
+    </div>
+    
+</div>
+<div class="form-group row">
+    <div class="col-md-3">
+         
+    </div>
+    <div class="col-md-9">
+        <div class="input-group-append">
+            <div class="input-group">
+                <button type="button" id="savedaysofweekrequirement@(Model.RequirementId)" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                    @T("Admin.Common.Save")
+                </button>
+            </div>
         </div>
     </div>
+
 </div>
 <div class="form-group row">
     <div class="offset-md-3 col-md-9 requirement-messages-col">

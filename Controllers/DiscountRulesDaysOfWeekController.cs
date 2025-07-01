@@ -12,6 +12,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
+using Microsoft.AspNetCore.Mvc;
 using Nop.Core.Domain.Discounts;
 using Nop.Plugin.DiscountRules.DaysOfWeek.Extentions;
 using Nop.Plugin.DiscountRules.DaysOfWeek.Models;
@@ -19,48 +20,40 @@ using Nop.Services;
 using Nop.Services.Configuration;
 using Nop.Services.Discounts;
 using Nop.Services.Security;
-using Nop.Web.Framework.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using Nop.Web.Framework;
+using Nop.Web.Framework.Controllers;
 using Nop.Web.Framework.Mvc.Filters;
-using System.Threading.Tasks;
 
 namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
 {
     [AuthorizeAdmin]
     [Area(AreaNames.ADMIN)]
+    [AutoValidateAntiforgeryToken]
     public class DiscountRulesDaysOfWeekController : BasePluginController
     {
         #region Fields
 
         private readonly IDiscountService _discountService;
         private readonly ISettingService _settingService;
-        private readonly IPermissionService _permissionService;
 
         #endregion
 
         #region Constructor
 
         public DiscountRulesDaysOfWeekController(IDiscountService discountService,
-            ISettingService settingService,
-            IPermissionService permissionService)
+            ISettingService settingService)
         {
             this._discountService = discountService;
             this._settingService = settingService;
-            this._permissionService = permissionService;
         }
 
         #endregion
 
         #region Methods
 
+        [CheckPermission(StandardPermission.Promotions.DISCOUNTS_VIEW)]
         public async Task<IActionResult> Configure(int discountId, int? discountRequirementId)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageDiscounts))
-                return Content("Access denied");
-
             var discount = _discountService.GetDiscountByIdAsync(discountId);
             if (discount == null)
                 throw new ArgumentException("Discount could not be loaded");
@@ -93,9 +86,6 @@ namespace Nop.Plugin.DiscountRules.DaysOfWeek.Controllers
         [HttpPost]
         public async Task<IActionResult> Configure(int discountId, int? discountRequirementId, int[] daysOfWeekIds)
         {
-            if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageDiscounts))
-                return Content("Access denied");
-
             var discount = await _discountService.GetDiscountByIdAsync(discountId);
             if (discount == null)
                 throw new ArgumentException("Discount could not be loaded");

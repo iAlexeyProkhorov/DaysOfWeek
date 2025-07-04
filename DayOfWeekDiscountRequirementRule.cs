@@ -1,4 +1,4 @@
-﻿//Copyright 2020 Alexey Prokhorov
+//Copyright 2020 Alexey Prokhorov
 
 //Licensed under the Apache License, Version 2.0 (the "License");
 //you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ using Nop.Core;
 using Nop.Plugin.DiscountRules.DaysOfWeek.Extentions;
 using Nop.Services.Configuration;
 using Nop.Services.Discounts;
+using System;
+using System.Threading.Tasks;
 
 namespace Nop.Plugin.DiscountRules.DaysOfWeek
 {

@@ -1,4 +1,7 @@
-﻿namespace Nop.Plugin.DiscountRules.DaysOfWeek.Extentions
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Nop.Plugin.DiscountRules.DaysOfWeek.Extentions
 {
     public static class SettingsExtentions
     {
